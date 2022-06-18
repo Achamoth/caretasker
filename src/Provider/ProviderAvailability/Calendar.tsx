@@ -98,9 +98,7 @@ function datifyTime(timeOfDay: TimeOfDayString): Date {
 
 export function Calendar(props: {
   availabilities: Availability[];
-  setAvailabilities: (
-    dispatch: (availabilities: Availability[]) => Availability[]
-  ) => void;
+  setAvailabilities: (availabilities: Availability[]) => void;
 }): React.ReactElement {
   const generateAvailabilityKey = (
     dayOfWeek: DayOfWeek,
@@ -167,22 +165,20 @@ export function Calendar(props: {
   ];
 
   const updateAvailabilities = (dayOfWeek: DayOfWeek, startTime: Date) => {
-    props.setAvailabilities((a) => {
-      let map = generateAvailabilityMap(a);
-      let key = generateAvailabilityKey(dayOfWeek, startTime);
-      let newAvailabilities = new Map<string, Availability>(map);
-      if (map.has(key)) {
-        newAvailabilities.delete(key);
-      } else {
-        let availability = {
-          dayOfWeek,
-          startTime,
-          endTime: new Date(0, 1, 1, startTime.getHours() + 1),
-        };
-        newAvailabilities.set(key, availability);
-      }
-      return [...newAvailabilities.values()];
-    });
+    let map = generateAvailabilityMap(props.availabilities);
+    let key = generateAvailabilityKey(dayOfWeek, startTime);
+    let newAvailabilities = new Map<string, Availability>(map);
+    if (map.has(key)) {
+      newAvailabilities.delete(key);
+    } else {
+      let availability = {
+        dayOfWeek,
+        startTime,
+        endTime: new Date(0, 1, 1, startTime.getHours() + 1),
+      };
+      newAvailabilities.set(key, availability);
+    }
+    props.setAvailabilities([...newAvailabilities.values()]);
   };
 
   return (

@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Provider } from "../Contracts/Provider";
-import { getProviderData } from "../MockData/MockProviderData";
+import {
+  getProviderData,
+  updateOrAddProvider,
+} from "../MockData/MockProviderData";
 import { ProviderHeader } from "./ProviderHeader";
 import { ProviderQualifications } from "./ProviderQualifications";
-import styles from "./ProviderPage.module.css";
 import { ProviderAvailability } from "./ProviderAvailability/ProviderAvailability";
 import { UpcomingShifts } from "./Shifts/UpcomingShifts";
 import { RecommendedShifts } from "./Shifts/RecommendedShifts";
+import styles from "./ProviderPage.module.css";
 
 export function ProviderPage(): React.ReactElement {
   const [provider, setProvider] = useState<Provider>();
@@ -25,6 +28,7 @@ export function ProviderPage(): React.ReactElement {
   }, []);
 
   const updateProvider = async (p: Provider) => {
+    updateOrAddProvider(p);
     setProvider(p);
   };
 

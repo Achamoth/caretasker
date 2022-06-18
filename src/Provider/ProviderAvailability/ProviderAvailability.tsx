@@ -1,10 +1,5 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React from "react";
 import { Availability, Provider } from "../../Contracts/Provider";
-import {
-  getProviderAvailabilities,
-  updateProviderAvailabilties,
-} from "../../MockData/MockProviderData";
 import { Calendar } from "./Calendar";
 import styles from "./ProviderAvailability.module.css";
 
@@ -12,26 +7,12 @@ export function ProviderAvailability(props: {
   provider: Provider;
   updateProvider: (p: Provider) => void;
 }): React.ReactElement {
-  let [availabilities, setAvailabilities] = useState<Availability[]>([]);
+  let availabilities = props.provider.availabilities ?? [];
 
-  useEffect(() => {
-    const fetchAvailabilities = async () => {
-      let initialAvailabilities = await getProviderAvailabilities(
-        props.provider.name
-      );
-      setAvailabilities(initialAvailabilities);
-    };
-    fetchAvailabilities();
-  }, []);
-
-  const updateAvailabilities = (
-    dispatch: (a: Availability[]) => Availability[]
-  ): void => {
-    setAvailabilities((a) => {
-      let newAvailabilities = dispatch(a);
-      updateProviderAvailabilties(props.provider.name, newAvailabilities);
-      return newAvailabilities;
-    });
+  const updateAvailabilities = (a: Availability[]): void => {
+    let newProvider = { ...props.provider };
+    newProvider.availabilities = a;
+    props.updateProvider(newProvider);
   };
 
   return (
