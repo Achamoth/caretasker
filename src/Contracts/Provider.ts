@@ -16,16 +16,16 @@ export interface Qualification {
 
 export interface Availability {
     dayOfWeek: DayOfWeek;
-    startTime: string;
-    endTime: string;
+    startTime: Date;
+    endTime: Date;
 }
 
 export enum DayOfWeek {
-    Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-    Saturday,
-    Sunday
+    Monday = 'Mon',
+    Tuesday = 'Tue',
+    Wednesday = 'Wed',
+    Thursday = 'Thu',
+    Friday = 'Fri',
+    Saturday = 'Sat',
+    Sunday = 'Sun'
 }

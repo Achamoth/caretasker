@@ -1,14 +1,21 @@
-import { useRef, useState } from "react";
-import { DayOfWeek } from "../../Contracts/Provider";
+import { useRef } from "react";
 import styles from "./Calendar.module.css";
 
-interface Availability {
+export interface Availability {
   dayOfWeek: DayOfWeek;
   startTime: Date;
   endTime: Date;
 }
 
-type DayOfWeekString = "Mon" | "Tue" | "Wed" | "Thu" | "Fri" | "Sat" | "Sun";
+export enum DayOfWeek {
+  Monday = "Mon",
+  Tuesday = "Tue",
+  Wednesday = "Wed",
+  Thursday = "Thu",
+  Friday = "Fri",
+  Saturday = "Sat",
+  Sunday = "Sun",
+}
 
 type TimeOfDayString =
   | "12am"
@@ -36,93 +43,83 @@ type TimeOfDayString =
   | "10pm"
   | "11pm";
 
-function dayOfWeekToEnum(dayOfWeek: DayOfWeekString): DayOfWeek {
-  switch (dayOfWeek) {
-    case "Mon":
-      return DayOfWeek.Monday;
-    case "Tue":
-      return DayOfWeek.Tuesday;
-    case "Wed":
-      return DayOfWeek.Wednesday;
-    case "Thu":
-      return DayOfWeek.Thursday;
-    case "Fri":
-      return DayOfWeek.Friday;
-    case "Sat":
-      return DayOfWeek.Saturday;
-    case "Sun":
-      return DayOfWeek.Sunday;
-  }
-}
-
 function datifyTime(timeOfDay: TimeOfDayString): Date {
   switch (timeOfDay) {
     case "12am":
-      return new Date(0, 0, undefined, 0);
+      return new Date(0, 1, 1, 0);
     case "1am":
-      return new Date(0, 0, undefined, 1);
+      return new Date(0, 1, 1, 1);
     case "2am":
-      return new Date(0, 0, undefined, 2);
+      return new Date(0, 1, 1, 2);
     case "3am":
-      return new Date(0, 0, undefined, 3);
+      return new Date(0, 1, 1, 3);
     case "4am":
-      return new Date(0, 0, undefined, 4);
+      return new Date(0, 1, 1, 4);
     case "5am":
-      return new Date(0, 0, undefined, 5);
+      return new Date(0, 1, 1, 5);
     case "6am":
-      return new Date(0, 0, undefined, 6);
+      return new Date(0, 1, 1, 6);
     case "7am":
-      return new Date(0, 0, undefined, 7);
+      return new Date(0, 1, 1, 7);
     case "8am":
-      return new Date(0, 0, undefined, 8);
+      return new Date(0, 1, 1, 8);
     case "9am":
-      return new Date(0, 0, undefined, 9);
+      return new Date(0, 1, 1, 9);
     case "10am":
-      return new Date(0, 0, undefined, 10);
+      return new Date(0, 1, 1, 10);
     case "11am":
-      return new Date(0, 0, undefined, 11);
+      return new Date(0, 1, 1, 11);
     case "12pm":
-      return new Date(0, 0, undefined, 12);
+      return new Date(0, 1, 1, 12);
     case "1pm":
-      return new Date(0, 0, undefined, 13);
+      return new Date(0, 1, 1, 13);
     case "2pm":
-      return new Date(0, 0, undefined, 14);
+      return new Date(0, 1, 1, 14);
     case "3pm":
-      return new Date(0, 0, undefined, 15);
+      return new Date(0, 1, 1, 15);
     case "4pm":
-      return new Date(0, 0, undefined, 16);
+      return new Date(0, 1, 1, 16);
     case "5pm":
-      return new Date(0, 0, undefined, 17);
+      return new Date(0, 1, 1, 17);
     case "6pm":
-      return new Date(0, 0, undefined, 18);
+      return new Date(0, 1, 1, 18);
     case "7pm":
-      return new Date(0, 0, undefined, 19);
+      return new Date(0, 1, 1, 19);
     case "8pm":
-      return new Date(0, 0, undefined, 20);
+      return new Date(0, 1, 1, 20);
     case "9pm":
-      return new Date(0, 0, undefined, 21);
+      return new Date(0, 1, 1, 21);
     case "10pm":
-      return new Date(0, 0, undefined, 22);
+      return new Date(0, 1, 1, 22);
     case "11pm":
-      return new Date(0, 0, undefined, 23);
+      return new Date(0, 1, 1, 23);
   }
 }
 
-function generateAvailability(
-  dayOfWeek: DayOfWeek,
-  startTime: Date
-): Availability {
-  return {
-    dayOfWeek,
-    startTime,
-    endTime: new Date(0, 0, undefined, startTime.getHours() + 1),
+export function Calendar(props: {
+  availabilities: Availability[];
+  setAvailabilities: (
+    dispatch: (availabilities: Availability[]) => Availability[]
+  ) => void;
+}): React.ReactElement {
+  const generateAvailabilityKey = (
+    dayOfWeek: DayOfWeek,
+    datifiedStartTime: Date
+  ): string => {
+    return `${dayOfWeek.toString()}${datifiedStartTime.getHours()}`;
   };
-}
 
-export function Calendar(): React.ReactElement {
-  const [availabilities, setAvailabilities] = useState<
-    Map<string, Availability>
-  >(new Map<string, Availability>());
+  const generateAvailabilityMap = (
+    a: Availability[]
+  ): Map<string, Availability> => {
+    let result = new Map<string, Availability>();
+    props.availabilities.forEach((a) => {
+      result.set(generateAvailabilityKey(a.dayOfWeek, a.startTime), a);
+    });
+    return result;
+  };
+
+  let availabilityMap = generateAvailabilityMap(props.availabilities);
 
   const mouseDown = useRef(false);
   window.onmousedown = () => {
@@ -132,17 +129,17 @@ export function Calendar(): React.ReactElement {
     mouseDown.current = false;
   };
 
-  let daysOfWeek: DayOfWeekString[] = [
-    "Mon",
-    "Tue",
-    "Wed",
-    "Thu",
-    "Fri",
-    "Sat",
-    "Sun",
+  const daysOfWeek: DayOfWeek[] = [
+    DayOfWeek.Monday,
+    DayOfWeek.Tuesday,
+    DayOfWeek.Wednesday,
+    DayOfWeek.Thursday,
+    DayOfWeek.Friday,
+    DayOfWeek.Saturday,
+    DayOfWeek.Sunday,
   ];
 
-  let hoursOfDay: TimeOfDayString[] = [
+  const hoursOfDay: TimeOfDayString[] = [
     "12am",
     "1am",
     "2am",
@@ -169,23 +166,22 @@ export function Calendar(): React.ReactElement {
     "11pm",
   ];
 
-  const updateAvailabilities = (
-    key: string,
-    dayOfWeek: DayOfWeekString,
-    hourOfDay: TimeOfDayString
-  ) => {
-    setAvailabilities((a) => {
-      let newAvailabilities = new Map<string, Availability>(a);
-      if (a.has(key)) {
+  const updateAvailabilities = (dayOfWeek: DayOfWeek, startTime: Date) => {
+    props.setAvailabilities((a) => {
+      let map = generateAvailabilityMap(a);
+      let key = generateAvailabilityKey(dayOfWeek, startTime);
+      let newAvailabilities = new Map<string, Availability>(map);
+      if (map.has(key)) {
         newAvailabilities.delete(key);
       } else {
-        let availability = generateAvailability(
-          dayOfWeekToEnum(dayOfWeek),
-          datifyTime(hourOfDay)
-        );
+        let availability = {
+          dayOfWeek,
+          startTime,
+          endTime: new Date(0, 1, 1, startTime.getHours() + 1),
+        };
         newAvailabilities.set(key, availability);
       }
-      return newAvailabilities;
+      return [...newAvailabilities.values()];
     });
   };
 
@@ -202,26 +198,32 @@ export function Calendar(): React.ReactElement {
         </thead>
         <tbody>
           {hoursOfDay.map((hourOfDay) => {
+            let datifiedStartTime = datifyTime(hourOfDay);
+
             return (
               <tr key={hourOfDay}>
                 <td key={`${hourOfDay}Header`}>{hourOfDay}</td>
                 {daysOfWeek.map((dayOfWeek) => {
-                  let key = `${dayOfWeek.toString()}${hourOfDay}`;
-                  let className = availabilities.has(key)
+                  let key = generateAvailabilityKey(
+                    dayOfWeek,
+                    datifiedStartTime
+                  );
+                  let className = availabilityMap.has(key)
                     ? styles.green
                     : undefined;
+
                   return (
                     <td
                       key={key}
                       className={className}
                       onMouseDown={(e) => {
                         e.preventDefault();
-                        updateAvailabilities(key, dayOfWeek, hourOfDay);
+                        updateAvailabilities(dayOfWeek, datifiedStartTime);
                       }}
                       onMouseOver={(e) => {
                         e.preventDefault();
                         if (mouseDown.current) {
-                          updateAvailabilities(key, dayOfWeek, hourOfDay);
+                          updateAvailabilities(dayOfWeek, datifiedStartTime);
                         }
                       }}
                     ></td>
