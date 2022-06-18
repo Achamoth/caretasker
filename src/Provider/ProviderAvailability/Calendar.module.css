@@ -1,0 +1,11 @@
+.calendar table, .calendar th, .calendar td {
+    border: 1px solid black;
+}
+
+.calendar td {
+    min-width: 50px;
+}
+
+.green {
+    background-color: green;
+}

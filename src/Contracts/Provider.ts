@@ -20,7 +20,7 @@ export interface Availability {
     endTime: string;
 }
 
-enum DayOfWeek {
+export enum DayOfWeek {
     Monday,
     Tuesday,
     Wednesday,
