@@ -18,18 +18,6 @@ export async function updateOrAddProvider(provider: Provider) {
     }
 }
 
-export async function updateProviderAvailabilties(providerName: string, availabilities: Availability[]) {
-    let provider = Providers.find(p => p.name === providerName);
-    if (provider) {
-        provider.availabilities = availabilities;
-    }
-    console.log(Providers);
-}
-
-export async function getProviderAvailabilities(providerName: string) : Promise<Availability[]> {
-    return Providers.find(p => p.name === providerName)?.availabilities ?? [];
-}
-
 var Providers: Provider[] = [
     {
         name: 'Ammar Abu Shamleh',
