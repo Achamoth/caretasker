@@ -5,7 +5,9 @@ import { getProviderData } from "../MockData/MockProviderData";
 import { ProviderHeader } from "./ProviderHeader";
 import { ProviderQualifications } from "./ProviderQualifications";
 import styles from "./ProviderPage.module.css";
-import { ProviderAvailability } from "./ProviderAvailability";
+import { ProviderAvailability } from "./ProviderAvailability/ProviderAvailability";
+import { UpcomingShifts } from "./Shifts/UpcomingShifts";
+import { RecommendedShifts } from "./Shifts/RecommendedShifts";
 
 export function ProviderPage(): React.ReactElement {
   const [provider, setProvider] = useState<Provider>();
@@ -48,6 +50,12 @@ export function ProviderPage(): React.ReactElement {
                 provider={provider}
                 updateProvider={updateProvider}
               />
+            </div>
+            <div className={styles.upcomingShifts}>
+              <UpcomingShifts providerName={provider.name} />
+            </div>
+            <div className={styles.recommendedShifts}>
+              <RecommendedShifts providerName={provider.name} />
             </div>
           </div>
         </>
