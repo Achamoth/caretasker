@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ProviderPage } from "./ProviderPage";
+import { ProviderPage } from "./Provider/ProviderPage";
 import styles from "./App.module.css";
 
 function App() {

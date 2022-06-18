@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Provider } from "./Contracts/Provider";
-import { getProviderData } from "./MockData/MockProviderData";
-import image from "./MockData/ammar.jpg";
+import { Provider } from "../Contracts/Provider";
+import { getProviderData } from "../MockData/MockProviderData";
+import { ProviderHeader } from "./ProviderHeader";
+import { ProviderQualifications } from "./ProviderQualifications";
 import styles from "./ProviderPage.module.css";
+import { ProviderAvailability } from "./ProviderAvailability";
 
 export function ProviderPage(): React.ReactElement {
   const [provider, setProvider] = useState<Provider>();
@@ -20,21 +22,32 @@ export function ProviderPage(): React.ReactElement {
     fetchProvider();
   }, []);
 
+  const updateProvider = async (p: Provider) => {
+    setProvider(p);
+  };
+
   return (
     <>
       {provider && (
         <>
           <div className={styles.provider}>
             <div className={styles.providerHeader}>
-              <span className={styles.providerImage}>
-                <img src={image} alt="Profile photo" height={200} width={200} />
-              </span>
-              <span className={styles.providerName}>
-                {provider.title} {provider.name}
-              </span>
+              <ProviderHeader
+                provider={provider}
+                updateProvider={updateProvider}
+              />
             </div>
             <div className={styles.providerQualifications}>
-              <h1>Qualifications</h1>
+              <ProviderQualifications
+                provider={provider}
+                updateProvider={updateProvider}
+              />
+            </div>
+            <div className={styles.providerAvailabilty}>
+              <ProviderAvailability
+                provider={provider}
+                updateProvider={updateProvider}
+              />
             </div>
           </div>
         </>
