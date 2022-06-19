@@ -1,4 +1,4 @@
-# Telstra Health Hackathon 2022
+# Telstra Health Hackathon 2022 - Team 4
 
 ## Problem
 
