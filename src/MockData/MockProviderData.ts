@@ -1,4 +1,9 @@
-import { Availability, Provider, Shift } from "../Contracts/Provider";
+import {
+  Availability,
+  DayOfWeek,
+  Provider,
+  Shift,
+} from "../Contracts/Provider";
 
 const wait = (ms: number): Promise<void> => {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -22,7 +27,21 @@ export async function getRecommendedShifts(
   providerName: string
 ): Promise<Shift[]> {
   await wait(10);
-  return [Shifts[1]];
+  let provider = Providers.find(
+    (p) => p.name.toLowerCase() === providerName.toLowerCase()
+  );
+  if (!provider) return [];
+  let availabilities = collapseAvailabilities(provider.availabilities ?? []);
+  return Shifts.filter(
+    (s) =>
+      !s.assignedTo &&
+      availabilities.find(
+        (a) =>
+          dayOfWeekToNum(a.dayOfWeek) === s.startTime.getDay() &&
+          a.startTime.getHours() <= s.startTime.getHours() &&
+          a.endTime.getHours() >= s.endTime.getHours()
+      )
+  );
 }
 
 export async function getAssignedShifts(
@@ -33,6 +52,69 @@ export async function getAssignedShifts(
     (s) => s.assignedTo?.toLowerCase() === providerName.toLowerCase()
   );
 }
+
+function dayOfWeekToNum(day: DayOfWeek) {
+  switch (day) {
+    case DayOfWeek.Monday:
+      return 1;
+    case DayOfWeek.Tuesday:
+      return 2;
+    case DayOfWeek.Wednesday:
+      return 3;
+    case DayOfWeek.Thursday:
+      return 4;
+    case DayOfWeek.Friday:
+      return 5;
+    case DayOfWeek.Saturday:
+      return 6;
+    case DayOfWeek.Sunday:
+      return 0;
+  }
+}
+
+function collapseAvailabilities(
+  availabilities: Availability[]
+): Availability[] {
+  if (availabilities.length === 0) return [];
+  let sortedAvailabilities = availabilities.sort(
+    (a1, a2) => dayOfWeekToNum(a1.dayOfWeek) - dayOfWeekToNum(a2.dayOfWeek)
+  );
+  let result: Availability[] = [];
+
+  DaysOfWeek.forEach((d) => {
+    let availabilitiesForDayOfWeek = sortedAvailabilities
+      .filter((a) => a.dayOfWeek === d)
+      .sort((a1, a2) => a1.startTime.getHours() - a2.startTime.getHours());
+    if (availabilitiesForDayOfWeek.length > 0) {
+      let currentAvailability = { ...availabilitiesForDayOfWeek[0] };
+      for (let i = 1; i < availabilitiesForDayOfWeek.length; i++) {
+        let availability = availabilitiesForDayOfWeek[i];
+        if (
+          currentAvailability.endTime.getHours() ===
+            availability.startTime.getHours() &&
+          currentAvailability.dayOfWeek === availability.dayOfWeek
+        ) {
+          currentAvailability.endTime = availability.endTime;
+        } else {
+          result.push(currentAvailability);
+          currentAvailability = { ...availability };
+        }
+      }
+      result.push(currentAvailability);
+    }
+  });
+  return result;
+}
+
+var DaysOfWeek = [
+  DayOfWeek.Monday,
+  DayOfWeek.Tuesday,
+  DayOfWeek.Wednesday,
+  DayOfWeek.Thursday,
+  DayOfWeek.Friday,
+  DayOfWeek.Saturday,
+  DayOfWeek.Sunday,
+];
 
 var Providers: Provider[] = [
   {
@@ -59,8 +141,8 @@ var Shifts: Shift[] = [
     postCode: "6006",
     description:
       "We need an experienced aged care nurse to fill in a shift for next Monday.",
-    startTime: new Date(2022, 6, 20, 8),
-    endTime: new Date(2022, 6, 20, 16),
+    startTime: new Date(2022, 5, 20, 8),
+    endTime: new Date(2022, 5, 20, 16),
     assignedTo: "Ammar Abu Shamleh",
   },
   {
@@ -71,7 +153,7 @@ var Shifts: Shift[] = [
     postCode: "6006",
     description:
       "We need an experienced aged care nurse to fill in a shift for next Tuesday.",
-    startTime: new Date(2022, 6, 21, 8),
-    endTime: new Date(2022, 6, 21, 16),
+    startTime: new Date(2022, 5, 21, 8),
+    endTime: new Date(2022, 5, 21, 16),
   },
 ];
