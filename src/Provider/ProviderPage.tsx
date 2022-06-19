@@ -8,8 +8,7 @@ import {
 import { ProviderHeader } from "./ProviderHeader";
 import { ProviderQualifications } from "./ProviderQualifications";
 import { ProviderAvailability } from "./ProviderAvailability/ProviderAvailability";
-import { UpcomingShifts } from "./Shifts/UpcomingShifts";
-import { RecommendedShifts } from "./Shifts/RecommendedShifts";
+import { ProviderShifts } from "./Shifts/ProviderShifts";
 import styles from "./ProviderPage.module.css";
 
 export function ProviderPage(): React.ReactElement {
@@ -25,7 +24,7 @@ export function ProviderPage(): React.ReactElement {
       setProvider(currentProvider);
     };
     fetchProvider();
-  }, []);
+  }, [firstName]);
 
   const updateProvider = async (p: Provider) => {
     updateOrAddProvider(p);
@@ -55,11 +54,8 @@ export function ProviderPage(): React.ReactElement {
                 updateProvider={updateProvider}
               />
             </div>
-            <div className={styles.upcomingShifts}>
-              <UpcomingShifts providerName={provider.name} />
-            </div>
-            <div className={styles.recommendedShifts}>
-              <RecommendedShifts providerName={provider.name} />
+            <div className={styles.providerShifts}>
+              <ProviderShifts provider={provider} />
             </div>
           </div>
         </>

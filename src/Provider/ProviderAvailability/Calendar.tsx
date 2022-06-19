@@ -102,9 +102,9 @@ export function Calendar(props: {
 }): React.ReactElement {
   const generateAvailabilityKey = (
     dayOfWeek: DayOfWeek,
-    datifiedStartTime: Date
+    hourOfDay: Number
   ): string => {
-    return `${dayOfWeek.toString()}${datifiedStartTime.getHours()}`;
+    return `${dayOfWeek.toString()}${hourOfDay}`;
   };
 
   const generateAvailabilityMap = (
@@ -112,7 +112,10 @@ export function Calendar(props: {
   ): Map<string, Availability> => {
     let result = new Map<string, Availability>();
     props.availabilities.forEach((a) => {
-      result.set(generateAvailabilityKey(a.dayOfWeek, a.startTime), a);
+      result.set(
+        generateAvailabilityKey(a.dayOfWeek, a.startTime.getHours()),
+        a
+      );
     });
     return result;
   };
@@ -165,20 +168,19 @@ export function Calendar(props: {
   ];
 
   const updateAvailabilities = (dayOfWeek: DayOfWeek, startTime: Date) => {
-    let map = generateAvailabilityMap(props.availabilities);
-    let key = generateAvailabilityKey(dayOfWeek, startTime);
-    let newAvailabilities = new Map<string, Availability>(map);
-    if (map.has(key)) {
-      newAvailabilities.delete(key);
+    let key = generateAvailabilityKey(dayOfWeek, startTime.getHours());
+
+    if (availabilityMap.has(key)) {
+      availabilityMap.delete(key);
     } else {
       let availability = {
         dayOfWeek,
         startTime,
         endTime: new Date(0, 1, 1, startTime.getHours() + 1),
       };
-      newAvailabilities.set(key, availability);
+      availabilityMap.set(key, availability);
     }
-    props.setAvailabilities([...newAvailabilities.values()]);
+    props.setAvailabilities([...availabilityMap.values()]);
   };
 
   return (
@@ -202,7 +204,7 @@ export function Calendar(props: {
                 {daysOfWeek.map((dayOfWeek) => {
                   let key = generateAvailabilityKey(
                     dayOfWeek,
-                    datifiedStartTime
+                    datifiedStartTime.getHours()
                   );
                   let className = availabilityMap.has(key)
                     ? styles.green
