@@ -146,8 +146,33 @@ var Providers: Provider[] = [
     availabilities: [
       {
         dayOfWeek: DayOfWeek.Saturday,
+        startTime: new Date(0, 1, 1, 0),
+        endTime: new Date(0, 1, 1, 1),
+      },
+      {
+        dayOfWeek: DayOfWeek.Saturday,
         startTime: new Date(0, 1, 1, 1),
         endTime: new Date(0, 1, 1, 2),
+      },
+      {
+        dayOfWeek: DayOfWeek.Saturday,
+        startTime: new Date(0, 1, 1, 2),
+        endTime: new Date(0, 1, 1, 3),
+      },
+      {
+        dayOfWeek: DayOfWeek.Saturday,
+        startTime: new Date(0, 1, 1, 3),
+        endTime: new Date(0, 1, 1, 4),
+      },
+      {
+        dayOfWeek: DayOfWeek.Saturday,
+        startTime: new Date(0, 1, 1, 4),
+        endTime: new Date(0, 1, 1, 5),
+      },
+      {
+        dayOfWeek: DayOfWeek.Saturday,
+        startTime: new Date(0, 1, 1, 5),
+        endTime: new Date(0, 1, 1, 6),
       },
     ],
   },

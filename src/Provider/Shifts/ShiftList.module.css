@@ -1,4 +1,19 @@
-/* .link {
+.link {
   width: 100%;
   text-align: center;
-} */
+}
+
+.noShifts {
+  display: flex;
+  flex-direction: column;
+}
+
+.noShiftsImage,
+.noShiftsText {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.noShiftsText {
+  margin-top: 10px;
+}
