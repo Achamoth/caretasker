@@ -177,25 +177,6 @@ export function Calendar(props: {
         }
     }
 
-    const onMouseUp = (day: DayOfWeek, time: TimeOfDay) => {
-        setSelecting({
-            selecting: false,
-            addMode: true
-        });
-
-        setSelection({
-            start: null,
-            end: null
-        })
-
-        const dateTimes = validDates.days.flatMap(day => validDates.times.map(time => `${day}-${time}`))
-        if (selecting.addMode) {
-            setChosenDaysAndTimes(currentValues => ([...new Set<string>([...currentValues, ...dateTimes])]))
-        } else {
-            setChosenDaysAndTimes(currentValues => (currentValues.filter(it => !dateTimes.includes(it))))
-        }
-    }
-
     const validDates = useMemo(() => {
         if (selection.start && selection.end) {
             let selectedDayStartIndex = daysOfWeek.indexOf(selection.start.day);
@@ -212,7 +193,6 @@ export function Calendar(props: {
             const timeStartIndex = Math.min(selectedTimeStartIndex, selectedTimeEndIndex);
             const timeEndIndex = Math.max(selectedTimeStartIndex, selectedTimeEndIndex);
 
-
             const validTimes = hoursOfDay.filter((it, index) => {
                 return index >= timeStartIndex && index <= timeEndIndex;
             })
@@ -228,6 +208,26 @@ export function Calendar(props: {
             times: []
         };
     }, [selection.start, selection.end])
+
+    const onMouseUp = (day: DayOfWeek, time: TimeOfDay) => {
+        setSelecting({
+            selecting: false,
+            addMode: true
+        });
+
+        setSelection({
+            start: null,
+            end: null
+        })
+
+        const dateTimes = validDates.days.flatMap(day => validDates.times.map(time => `${day}-${time}`))
+
+        if (selecting.addMode) {
+            setChosenDaysAndTimes(currentValues => ([...new Set<string>([...currentValues, ...dateTimes])]))
+        } else {
+            setChosenDaysAndTimes(currentValues => (currentValues.filter(it => !dateTimes.includes(it))))
+        }
+    }
 
     return (
         <div className={styles.calendar}>
