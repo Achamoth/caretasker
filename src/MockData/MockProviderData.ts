@@ -32,6 +32,7 @@ export async function getRecommendedShifts(
   );
   if (!provider) return [];
   let availabilities = collapseAvailabilities(provider.availabilities ?? []);
+  // Doesn't deal with overnight shifts properly
   return Shifts.filter(
     (s) =>
       !s.assignedTo &&
@@ -82,7 +83,7 @@ type MergedAvailability = {
   endTime: Date;
 };
 
-// Doesn't deal with Saturday -> Sunday properly
+// Doesn't deal with Saturday -> Sunday properly (Saturday availabilities get broken if they go to midnight)
 function collapseAvailabilities(
   availabilities: Availability[]
 ): MergedAvailability[] {
@@ -221,6 +222,66 @@ var UnassignedShifts: Shift[] = [
     endTime: new Date(2022, 6, 3, 16),
     facilityType: "Nursing",
   },
+  {
+    organisationName: "The Richardson Aged Care",
+    jobId: "10308",
+    jobName: "Registered Nurse",
+    location: "West Perth",
+    postCode: "6005",
+    description:
+      "We need an experienced aged care nurse to fill in a shift for next Tuesday.",
+    startTime: new Date(2022, 6, 1, 1),
+    endTime: new Date(2022, 6, 1, 8),
+    facilityType: "Nursing",
+  },
+  {
+    organisationName: "Claremont Hospital",
+    jobId: "10311",
+    jobName: "Disability Nurse",
+    location: "Claremont",
+    postCode: "6010",
+    description:
+      "We need an experienced aged care nurse to fill in a shift for next Tuesday.",
+    startTime: new Date(2022, 6, 8, 16),
+    endTime: new Date(2022, 6, 8, 20),
+    facilityType: "Hospital",
+  },
+  {
+    organisationName: "Hills Nursing",
+    jobId: "10452",
+    jobName: "Admiral Nurse",
+    location: "Joondalup",
+    postCode: "6027",
+    description:
+      "We need an experienced aged care nurse to fill in a shift for next Tuesday.",
+    startTime: new Date(2022, 6, 14, 9),
+    endTime: new Date(2022, 6, 14, 14),
+    facilityType: "House",
+  },
+  {
+    organisationName: "Care2U",
+    jobId: "10322",
+    jobName: "Parkinson's Nurse Specialist",
+    location: "Dianella",
+    postCode: "6059",
+    description:
+      "We need an experienced aged care nurse to fill in a shift for next Tuesday.",
+    startTime: new Date(2022, 6, 17, 10),
+    endTime: new Date(2022, 6, 17, 16),
+    facilityType: "House",
+  },
+  {
+    organisationName: "The Richardson Aged Care",
+    jobId: "10333",
+    jobName: "Registered Nurse",
+    location: "West Perth",
+    postCode: "6005",
+    description:
+      "We need an experienced aged care nurse to fill in a shift for next Tuesday.",
+    startTime: new Date(2022, 6, 11, 12),
+    endTime: new Date(2022, 6, 11, 20),
+    facilityType: "Nursing",
+  },
 ];
 
 var AssignedShifts: Shift[] = [
@@ -284,8 +345,8 @@ var AssignedShifts: Shift[] = [
     postCode: "6006",
     description:
       "We need an experienced aged care nurse to fill in a shift for next Monday.",
-    startTime: new Date(2022, 6, 1, 8),
-    endTime: new Date(2022, 6, 1, 16),
+    startTime: new Date(2022, 7, 1, 8),
+    endTime: new Date(2022, 7, 1, 16),
     facilityType: "Nursing",
     assignedTo: "Ammar Abu Shamleh",
   },
@@ -297,8 +358,8 @@ var AssignedShifts: Shift[] = [
     postCode: "6006",
     description:
       "We need an experienced aged care nurse to fill in a shift for next Tuesday.",
-    startTime: new Date(2022, 6, 2, 8),
-    endTime: new Date(2022, 6, 2, 16),
+    startTime: new Date(2022, 7, 2, 8),
+    endTime: new Date(2022, 7, 2, 16),
     facilityType: "Nursing",
     assignedTo: "Ammar Abu Shamleh",
   },

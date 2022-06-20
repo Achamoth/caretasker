@@ -7,12 +7,13 @@ import styles from "./ShiftList.module.css";
 
 export function ShiftList(props: { shifts?: Shift[] }): React.ReactElement {
   let shiftsToShow: Shift[] = [];
-  if (props.shifts && props.shifts.length > 5) {
-    shiftsToShow = props.shifts
-      ?.sort((s1, s2) => (s1.startTime < s2.startTime ? -1 : 1))
-      .slice(0, 5);
-  } else {
-    shiftsToShow = props.shifts ?? [];
+  if (props.shifts) {
+    shiftsToShow = props.shifts?.sort((s1, s2) =>
+      s1.startTime < s2.startTime ? -1 : 1
+    );
+    if (props.shifts.length > 5) {
+      shiftsToShow = shiftsToShow.slice(0, 5);
+    }
   }
 
   return (
