@@ -1,7 +1,14 @@
 .provider {
   margin-left: 20px;
+  min-height: 94vh;
 }
 
 .providerHeader {
   display: flex;
+}
+
+.rostering {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 1fr 6fr;
 }

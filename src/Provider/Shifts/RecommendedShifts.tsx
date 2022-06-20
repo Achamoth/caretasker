@@ -6,7 +6,7 @@ export function RecommendedShifts(props: {
 }): React.ReactElement {
   return (
     <>
-      <h1>Recommended Shifts</h1>
+      <h2>Recommended Shifts</h2>
       {!!props.recommendedShifts?.length && (
         <>
           <ul>

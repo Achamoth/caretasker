@@ -16,12 +16,12 @@ export function ProviderAvailability(props: {
   };
 
   return (
-    <>
-      <h1>Availabilties</h1>
+    <div className={styles.container}>
+      <h2>My Availability</h2>
       <Calendar
         availabilities={availabilities}
         setAvailabilities={updateAvailabilities}
       />
-    </>
+    </div>
   );
 }

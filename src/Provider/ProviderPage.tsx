@@ -41,14 +41,16 @@ export function ProviderPage(): React.ReactElement {
                 updateProvider={updateProvider}
               />
             </div>
-            <div className={styles.providerAvailabilty}>
-              <ProviderAvailability
-                provider={provider}
-                updateProvider={updateProvider}
-              />
-            </div>
-            <div className={styles.providerShifts}>
-              <ProviderShifts provider={provider} />
+            <div className={styles.rostering}>
+              <div className={styles.providerAvailabilty}>
+                <ProviderAvailability
+                  provider={provider}
+                  updateProvider={updateProvider}
+                />
+              </div>
+              <div className={styles.providerShifts}>
+                <ProviderShifts provider={provider} />
+              </div>
             </div>
           </div>
         </>

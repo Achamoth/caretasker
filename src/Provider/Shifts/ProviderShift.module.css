@@ -1,0 +1,7 @@
+.container {
+  background-color: rgb(227, 227, 227);
+}
+
+.container:hover {
+  background-color: rgb(192, 190, 190);
+}

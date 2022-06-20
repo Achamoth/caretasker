@@ -38,8 +38,10 @@ export async function getRecommendedShifts(
       availabilities.find(
         (a) =>
           dayOfWeekToNum(a.dayOfWeek) === s.startTime.getDay() &&
-          a.startTime.getHours() <= s.startTime.getHours() &&
-          a.endTime.getHours() >= s.endTime.getHours()
+          (a.startTime.getHours() <= s.startTime.getHours() ||
+            a.startTime.getDay() < s.startTime.getDay()) &&
+          (a.endTime.getHours() >= s.endTime.getHours() ||
+            a.endTime.getDay() > s.endTime.getDay())
       )
   );
 }
@@ -170,8 +172,68 @@ var Shifts: Shift[] = [
     location: "North Perth",
     postCode: "6006",
     description:
-      "We need an experienced aged care nurse to fill in a shift for next Tuesday.",
+      "We need an experienced aged care nurse to fill in a shift for next Monday.",
     startTime: new Date(2022, 5, 21, 8),
     endTime: new Date(2022, 5, 21, 16),
+    assignedTo: "Ammar Abu Shamleh",
+  },
+  {
+    organisationName: "St Rita's Nursing Home",
+    jobId: "003",
+    jobName: "Aged care nurse needed",
+    location: "North Perth",
+    postCode: "6006",
+    description:
+      "We need an experienced aged care nurse to fill in a shift for next Monday.",
+    startTime: new Date(2022, 5, 22, 8),
+    endTime: new Date(2022, 5, 22, 16),
+    assignedTo: "Ammar Abu Shamleh",
+  },
+  {
+    organisationName: "St Rita's Nursing Home",
+    jobId: "004",
+    jobName: "Aged care nurse needed",
+    location: "North Perth",
+    postCode: "6006",
+    description:
+      "We need an experienced aged care nurse to fill in a shift for next Monday.",
+    startTime: new Date(2022, 5, 23, 8),
+    endTime: new Date(2022, 5, 23, 16),
+    assignedTo: "Ammar Abu Shamleh",
+  },
+  {
+    organisationName: "St Rita's Nursing Home",
+    jobId: "005",
+    jobName: "Aged care nurse needed",
+    location: "North Perth",
+    postCode: "6006",
+    description:
+      "We need an experienced aged care nurse to fill in a shift for next Monday.",
+    startTime: new Date(2022, 5, 24, 8),
+    endTime: new Date(2022, 5, 24, 16),
+    assignedTo: "Ammar Abu Shamleh",
+  },
+  {
+    organisationName: "St Rita's Nursing Home",
+    jobId: "006",
+    jobName: "Aged care nurse needed",
+    location: "North Perth",
+    postCode: "6006",
+    description:
+      "We need an experienced aged care nurse to fill in a shift for next Tuesday.",
+    startTime: new Date(2022, 6, 21, 8),
+    endTime: new Date(2022, 6, 21, 16),
+  },
+  {
+    organisationName: "St Rita's Nursing Home",
+    jobId: "007",
+    jobName: "Aged care nurse needed",
+    location: "North Perth",
+    postCode: "6006",
+    description:
+      "We need an experienced aged care nurse to fill in a shift for next Tuesday.",
+    startTime: new Date(2022, 6, 22, 8),
+    endTime: new Date(2022, 6, 22, 16),
+    assignedTo: "Ammar Abu Shamleh",
   },
 ];

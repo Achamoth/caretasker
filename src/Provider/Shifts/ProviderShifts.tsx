@@ -27,13 +27,13 @@ export function ProviderShifts(props: {
   }, [props.provider.availabilities?.length, props.provider.name]);
 
   return (
-    <>
+    <div className={styles.container}>
       <div className={styles.recommendedShifts}>
         <RecommendedShifts recommendedShifts={recommendedShifts} />
       </div>
       <div className={styles.upcomingShifts}>
         <UpcomingShifts assignedShifts={assignedShifts} />
       </div>
-    </>
+    </div>
   );
 }

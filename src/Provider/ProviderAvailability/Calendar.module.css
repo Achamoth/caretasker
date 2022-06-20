@@ -1,32 +1,33 @@
-.calendar table, .calendar th, .calendar td {
-    border: 1px solid #919191;
-    cursor: pointer;
-    border-collapse: collapse;
+.calendar table,
+.calendar th,
+.calendar td {
+  border: 1px solid #919191;
+  cursor: pointer;
+  border-collapse: collapse;
 }
 
 .calendar td {
-    min-width: 40px;
-    width: 40px;
-    max-width: 40px;
+  min-width: 40px;
+  width: 40px;
+  max-width: 40px;
 }
 
 .selected {
-    background-color: rgba(0, 128, 117, 0.65);
+  background-color: rgba(0, 128, 117, 0.65);
 }
 
 .chosen {
-    background-color: rgba(0, 128, 0, 0.52);
+  background-color: rgba(0, 128, 0, 0.52);
 }
 
 .deleteMode {
-    background-color: rgba(255, 0, 0, 0.56);
+  background-color: rgba(255, 0, 0, 0.56);
 }
 
-
 .cellHighlight {
-    background-color: rgba(0, 128, 117, 0.3);
+  background-color: rgba(0, 128, 117, 0.3);
 }
 
 .cellHighlightDelete {
-    background-color: rgba(173, 132, 132, 0.56);
+  background-color: rgba(173, 132, 132, 0.56);
 }
