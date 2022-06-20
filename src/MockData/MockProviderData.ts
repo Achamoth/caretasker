@@ -119,6 +119,11 @@ function collapseAvailabilities(
       currentAvailability.endTime = availability.endTime;
       currentAvailability.endDayOfWeek = availability.dayOfWeek;
     } else {
+      if (currentAvailability.endTime.getHours() === 0) {
+        currentAvailability.endDayOfWeek = dayAfter(
+          currentAvailability.startDayOfWeek
+        );
+      }
       result.push(currentAvailability);
       currentAvailability = {
         ...availability,
@@ -129,6 +134,25 @@ function collapseAvailabilities(
   }
   result.push(currentAvailability);
   return result;
+}
+
+function dayAfter(dayOfWeek: DayOfWeek): DayOfWeek {
+  switch (dayOfWeek) {
+    case DayOfWeek.Monday:
+      return DayOfWeek.Tuesday;
+    case DayOfWeek.Tuesday:
+      return DayOfWeek.Wednesday;
+    case DayOfWeek.Wednesday:
+      return DayOfWeek.Thursday;
+    case DayOfWeek.Thursday:
+      return DayOfWeek.Friday;
+    case DayOfWeek.Friday:
+      return DayOfWeek.Saturday;
+    case DayOfWeek.Saturday:
+      return DayOfWeek.Sunday;
+    case DayOfWeek.Sunday:
+      return DayOfWeek.Monday;
+  }
 }
 
 function dayBefore(dayOfWeek: DayOfWeek): DayOfWeek {

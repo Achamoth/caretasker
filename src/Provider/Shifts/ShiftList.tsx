@@ -5,7 +5,10 @@ import { ProviderShift } from "./ProviderShift";
 import NoShifts from "../../Images/NoShifts.svg";
 import styles from "./ShiftList.module.css";
 
-export function ShiftList(props: { shifts?: Shift[] }): React.ReactElement {
+export function ShiftList(props: {
+  shifts?: Shift[];
+  overflowLink: string;
+}): React.ReactElement {
   let shiftsToShow: Shift[] = [];
   if (props.shifts) {
     shiftsToShow = props.shifts?.sort((s1, s2) =>
@@ -40,7 +43,7 @@ export function ShiftList(props: { shifts?: Shift[] }): React.ReactElement {
       )}
       {props.shifts && props.shifts.length > 5 && (
         <div className={styles.link}>
-          <Link to={"/providers/ammar/shifts"}>
+          <Link to={props.overflowLink}>
             <b>View All</b>
           </Link>
         </div>

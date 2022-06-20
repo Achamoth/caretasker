@@ -29,11 +29,17 @@ export function ProviderShifts(props: {
     <div className={styles.container}>
       <div className={styles.recommendedShifts}>
         <h2>Recommended Shifts</h2>
-        <ShiftList shifts={recommendedShifts} />
+        <ShiftList
+          shifts={recommendedShifts}
+          overflowLink={"/providers/ammar/search"}
+        />
       </div>
       <div className={styles.upcomingShifts}>
         <h2>Upcoming Shifts</h2>
-        <ShiftList shifts={assignedShifts} />
+        <ShiftList
+          shifts={assignedShifts}
+          overflowLink={"/providers/ammar/shifts"}
+        />
       </div>
     </div>
   );
