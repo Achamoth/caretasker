@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ProviderPage } from "./Provider/ProviderPage";
 import styles from "./App.module.css";
-import { TopBar } from "./TopBar";
-import { NavBar } from "./NavBar";
+import { TopBar } from "./Bars/TopBar";
+import { NavBar } from "./Bars/NavBar";
+import { HomePage } from "./HomePage/HomePage";
 
 function App() {
   return (
@@ -11,19 +12,20 @@ function App() {
         <TopBar />
       </div>
       <div className={styles.twoPanel}>
-        <div className={styles.navBar}>
-          <NavBar />
-        </div>
-        <div className={styles.content}>
-          <Router>
+        <Router>
+          <div className={styles.navBar}>
+            <NavBar />
+          </div>
+          <div className={styles.content}>
             <Routes>
+              <Route path="/" element={<HomePage />} />
               <Route
                 path="providers/:providerName"
                 element={<ProviderPage />}
               />
             </Routes>
-          </Router>
-        </div>
+          </div>
+        </Router>
       </div>
     </>
   );
