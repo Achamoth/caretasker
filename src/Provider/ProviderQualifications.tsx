@@ -11,6 +11,7 @@ export function ProviderQualifications(props: {
       <div className={styles.qualificationHeader}>
         <h1>Qualifications</h1>
       </div>
+      <div className={styles.summary}>{props.provider.summary}</div>
       <div className={styles.qualificationList}>
         <ul>
           {props.provider.qualifications.map((q) => {

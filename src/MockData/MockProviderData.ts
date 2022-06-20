@@ -121,6 +121,8 @@ var Providers: Provider[] = [
     name: "Ammar Abu Shamleh",
     title: "Mr",
     dateOfBirth: new Date(1997, 3, 24),
+    summary:
+      "I am a professional nurse with over 6 years of experience in the aged care industry. I have a deep passion for providing the highest quality healthcare to our elderly population, and continually strive to better myself.",
     qualifications: [
       { name: "Nursing degree", dateAchieved: new Date(2018, 11) },
       {

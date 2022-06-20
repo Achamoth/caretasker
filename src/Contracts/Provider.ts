@@ -2,6 +2,7 @@ export interface Provider {
   title: Title;
   name: string;
   dateOfBirth: Date;
+  summary: string;
   qualifications: Qualification[];
   availabilities?: Availability[];
 }

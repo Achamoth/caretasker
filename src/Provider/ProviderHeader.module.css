@@ -1,7 +1,19 @@
+.headerContainer {
+  display: grid;
+  grid-template-columns: 200px auto;
+}
+
+.providerImage {
+  grid-column: 1 / span 1;
+}
+
 .providerName {
-    font-size: xx-large;
-    font-weight: bold;
-    margin-left: 20px;
-    margin-bottom: auto;
-    margin-top: auto;
-  }
+  font-size: x-large;
+  font-weight: bold;
+  margin-left: 20px;
+  grid-column: 2 / span 1;
+}
+
+.providerQualifications {
+  grid-column: 2 / span 1;
+}

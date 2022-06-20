@@ -42,12 +42,6 @@ export function ProviderPage(): React.ReactElement {
                 updateProvider={updateProvider}
               />
             </div>
-            <div className={styles.providerQualifications}>
-              <ProviderQualifications
-                provider={provider}
-                updateProvider={updateProvider}
-              />
-            </div>
             <div className={styles.providerAvailabilty}>
               <ProviderAvailability
                 provider={provider}
