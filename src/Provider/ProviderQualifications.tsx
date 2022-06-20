@@ -15,12 +15,16 @@ export function ProviderQualifications(props: {
             return (
               <li key={q.name}>
                 {q.name},{" "}
-                {`${q.dateAchieved.getMonth()}/${q.dateAchieved.getFullYear()}`}
+                {`${
+                  q.dateAchieved.getMonth() + 1
+                }/${q.dateAchieved.getFullYear()}`}
                 {q.expiryDate && (
                   <>
                     {" "}
                     -{" "}
-                    {`${q.expiryDate.getMonth()}/${q.expiryDate.getFullYear()}`}
+                    {`${
+                      q.expiryDate.getMonth() + 1
+                    }/${q.expiryDate.getFullYear()}`}
                   </>
                 )}
                 {q.institutionName && (

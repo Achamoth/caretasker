@@ -47,7 +47,9 @@ export function ProviderShift(props: { shift: Shift }): React.ReactElement {
 }
 
 function dateToString(date: Date) {
-  let dateComponent = `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+  let dateComponent = `${date.getDate()}/${
+    date.getMonth() + 1
+  }/${date.getFullYear()}`;
   let timeComponent = timeToString(date.getHours());
   return `${dateComponent} ${timeComponent}`;
 }
