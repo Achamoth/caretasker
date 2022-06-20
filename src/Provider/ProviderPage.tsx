@@ -6,7 +6,6 @@ import {
   updateOrAddProvider,
 } from "../MockData/MockProviderData";
 import { ProviderHeader } from "./ProviderHeader";
-import { ProviderQualifications } from "./ProviderQualifications";
 import { ProviderAvailability } from "./ProviderAvailability/ProviderAvailability";
 import { ProviderShifts } from "./Shifts/ProviderShifts";
 import styles from "./ProviderPage.module.css";

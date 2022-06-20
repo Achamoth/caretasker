@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
 import styles from "./Calendar.module.css";
 
 export interface Availability {
@@ -17,33 +17,46 @@ export enum DayOfWeek {
   Sunday = "Sun",
 }
 
-type TimeOfDayString =
-  | "12am"
-  | "1am"
-  | "2am"
-  | "3am"
-  | "4am"
-  | "5am"
-  | "6am"
-  | "7am"
-  | "8am"
-  | "9am"
-  | "10am"
-  | "11am"
-  | "12pm"
-  | "1pm"
-  | "2pm"
-  | "3pm"
-  | "4pm"
-  | "5pm"
-  | "6pm"
-  | "7pm"
-  | "8pm"
-  | "9pm"
-  | "10pm"
-  | "11pm";
+const daysOfWeek = [
+  DayOfWeek.Monday,
+  DayOfWeek.Tuesday,
+  DayOfWeek.Wednesday,
+  DayOfWeek.Thursday,
+  DayOfWeek.Friday,
+  DayOfWeek.Saturday,
+  DayOfWeek.Sunday,
+];
 
-function datifyTime(timeOfDay: TimeOfDayString): Date {
+const hoursOfDay = [
+  "12am",
+  "1am",
+  "2am",
+  "3am",
+  "4am",
+  "5am",
+  "6am",
+  "7am",
+  "8am",
+  "9am",
+  "10am",
+  "11am",
+  "12pm",
+  "1pm",
+  "2pm",
+  "3pm",
+  "4pm",
+  "5pm",
+  "6pm",
+  "7pm",
+  "8pm",
+  "9pm",
+  "10pm",
+  "11pm",
+] as const;
+
+type TimeOfDay = typeof hoursOfDay[number];
+
+function datifyTime(timeOfDay: TimeOfDay): Date {
   switch (timeOfDay) {
     case "12am":
       return new Date(0, 1, 1, 0);
@@ -96,91 +109,155 @@ function datifyTime(timeOfDay: TimeOfDayString): Date {
   }
 }
 
+const key = (d: DayOfWeek, h: TimeOfDay) => `${d}-${h}`;
+
+type SelectedDateTime = {
+  day: DayOfWeek;
+  time: TimeOfDay;
+  dateTime: Date;
+};
+
 export function Calendar(props: {
   availabilities: Availability[];
   setAvailabilities: (availabilities: Availability[]) => void;
 }): React.ReactElement {
-  const generateAvailabilityKey = (
-    dayOfWeek: DayOfWeek,
-    hourOfDay: Number
-  ): string => {
-    return `${dayOfWeek.toString()}${hourOfDay}`;
-  };
+  // selection and selecting could probably be one piece of state
+  const [selection, setSelection] = useState<{
+    start: SelectedDateTime | null;
+    end: SelectedDateTime | null;
+  }>({
+    start: null,
+    end: null,
+  });
 
-  const generateAvailabilityMap = (
-    a: Availability[]
-  ): Map<string, Availability> => {
-    let result = new Map<string, Availability>();
-    props.availabilities.forEach((a) => {
-      result.set(
-        generateAvailabilityKey(a.dayOfWeek, a.startTime.getHours()),
-        a
-      );
+  const [selecting, setSelecting] = useState({
+    selecting: false,
+    addMode: true,
+  });
+
+  // I'd probably deal with splitting availabilities here in case they've been collapsed (i.e. more than 1 hour blocks)
+  let initialAvailabilities =
+    props.availabilities?.map((a) =>
+      key(a.dayOfWeek, hoursOfDay[a.startTime.getHours()])
+    ) ?? [];
+  const [chosenDaysAndTimes, setChosenDaysAndTimes] = useState<string[]>(
+    initialAvailabilities
+  );
+
+  useEffect(() => {
+    let newAvailabilities: Availability[] = [];
+    chosenDaysAndTimes.forEach((s) => {
+      // This is all sloppy; I'd fix the state (use dictionary instead of list of strings)
+      let [d, h] = s.split("-");
+      let timeOfDay = h as TimeOfDay;
+      let dayOfWeek = daysOfWeek.find((day) => day === d) ?? DayOfWeek.Monday;
+      let startTime = datifyTime(timeOfDay);
+      let endTime = new Date(0, 1, 1, startTime.getHours() + 1);
+      newAvailabilities.push({ dayOfWeek, startTime, endTime });
     });
-    return result;
+    props.setAvailabilities(newAvailabilities);
+  }, [chosenDaysAndTimes]);
+
+  const onMouseDown = (day: DayOfWeek, time: TimeOfDay) => {
+    setSelection({
+      start: {
+        day,
+        time,
+        dateTime: datifyTime(time),
+      },
+      end: {
+        day,
+        time,
+        dateTime: datifyTime(time),
+      },
+    });
+
+    const clickedDateTime = key(day, time);
+
+    setSelecting({
+      selecting: true,
+      addMode: !chosenDaysAndTimes.includes(clickedDateTime),
+    });
   };
 
-  let availabilityMap = generateAvailabilityMap(props.availabilities);
-
-  const mouseDown = useRef(false);
-  window.onmousedown = () => {
-    mouseDown.current = true;
-  };
-  window.onmouseup = () => {
-    mouseDown.current = false;
-  };
-
-  const daysOfWeek: DayOfWeek[] = [
-    DayOfWeek.Monday,
-    DayOfWeek.Tuesday,
-    DayOfWeek.Wednesday,
-    DayOfWeek.Thursday,
-    DayOfWeek.Friday,
-    DayOfWeek.Saturday,
-    DayOfWeek.Sunday,
-  ];
-
-  const hoursOfDay: TimeOfDayString[] = [
-    "12am",
-    "1am",
-    "2am",
-    "3am",
-    "4am",
-    "5am",
-    "6am",
-    "7am",
-    "8am",
-    "9am",
-    "10am",
-    "11am",
-    "12pm",
-    "1pm",
-    "2pm",
-    "3pm",
-    "4pm",
-    "5pm",
-    "6pm",
-    "7pm",
-    "8pm",
-    "9pm",
-    "10pm",
-    "11pm",
-  ];
-
-  const updateAvailabilities = (dayOfWeek: DayOfWeek, startTime: Date) => {
-    let key = generateAvailabilityKey(dayOfWeek, startTime.getHours());
-
-    if (availabilityMap.has(key)) {
-      availabilityMap.delete(key);
-    } else {
-      let availability = {
-        dayOfWeek,
-        startTime,
-        endTime: new Date(0, 1, 1, startTime.getHours() + 1),
-      };
-      availabilityMap.set(key, availability);
+  const onMouseOver = (day: DayOfWeek, time: TimeOfDay) => {
+    if (selecting.selecting) {
+      setSelection((currentState) => ({
+        ...currentState,
+        end: {
+          day,
+          time,
+          dateTime: datifyTime(time),
+        },
+      }));
     }
-    props.setAvailabilities([...availabilityMap.values()]);
+  };
+
+  const validDates = useMemo(() => {
+    if (selection.start && selection.end) {
+      let selectedDayStartIndex = daysOfWeek.indexOf(selection.start.day);
+      let selectedDayEndIndex = daysOfWeek.indexOf(selection.end.day);
+      const dayStartIndex = Math.min(
+        selectedDayStartIndex,
+        selectedDayEndIndex
+      );
+      const dayEndIndex = Math.max(selectedDayStartIndex, selectedDayEndIndex);
+
+      const validDays = daysOfWeek.filter((it, index) => {
+        return index >= dayStartIndex && index <= dayEndIndex;
+      });
+
+      let selectedTimeStartIndex = hoursOfDay.indexOf(selection.start.time);
+      let selectedTimeEndIndex = hoursOfDay.indexOf(selection.end.time);
+      const timeStartIndex = Math.min(
+        selectedTimeStartIndex,
+        selectedTimeEndIndex
+      );
+      const timeEndIndex = Math.max(
+        selectedTimeStartIndex,
+        selectedTimeEndIndex
+      );
+
+      const validTimes = hoursOfDay.filter((it, index) => {
+        return index >= timeStartIndex && index <= timeEndIndex;
+      });
+
+      return {
+        days: validDays,
+        times: validTimes,
+      };
+    }
+
+    return {
+      days: [],
+      times: [],
+    };
+  }, [selection.start, selection.end]);
+
+  const onMouseUp = (day: DayOfWeek, time: TimeOfDay) => {
+    setSelecting({
+      selecting: false,
+      addMode: true,
+    });
+
+    setSelection({
+      start: null,
+      end: null,
+    });
+
+    const dateTimes = validDates.days.flatMap((day) =>
+      validDates.times.map((time) => key(day, time))
+    );
+
+    if (selecting.addMode) {
+      setChosenDaysAndTimes((currentValues) => [
+        ...new Set<string>([...currentValues, ...dateTimes]),
+      ]);
+    } else {
+      setChosenDaysAndTimes((currentValues) => [
+        ...currentValues.filter((it) => !dateTimes.includes(it)),
+      ]);
+    }
   };
 
   return (
@@ -196,33 +273,40 @@ export function Calendar(props: {
         </thead>
         <tbody>
           {hoursOfDay.map((hourOfDay) => {
-            let datifiedStartTime = datifyTime(hourOfDay);
-
             return (
               <tr key={hourOfDay}>
                 <td key={`${hourOfDay}Header`}>{hourOfDay}</td>
                 {daysOfWeek.map((dayOfWeek) => {
-                  let key = generateAvailabilityKey(
-                    dayOfWeek,
-                    datifiedStartTime.getHours()
-                  );
-                  let className = availabilityMap.has(key)
-                    ? styles.green
-                    : undefined;
+                  const dateTime = key(dayOfWeek, hourOfDay);
+
+                  const selected =
+                    validDates.times.includes(hourOfDay) &&
+                    validDates.days.includes(dayOfWeek);
+                  const chosen = chosenDaysAndTimes.includes(dateTime);
+
+                  const classNames = [
+                    selected ? styles.selected : null,
+                    chosen ? styles.chosen : null,
+                    selected && !selecting.addMode ? styles.deleteMode : null,
+                  ]
+                    .filter((it) => !!it)
+                    .join(" ");
 
                   return (
                     <td
-                      key={key}
-                      className={className}
+                      key={dateTime}
+                      className={classNames}
                       onMouseDown={(e) => {
                         e.preventDefault();
-                        updateAvailabilities(dayOfWeek, datifiedStartTime);
+                        onMouseDown(dayOfWeek, hourOfDay);
                       }}
                       onMouseOver={(e) => {
                         e.preventDefault();
-                        if (mouseDown.current) {
-                          updateAvailabilities(dayOfWeek, datifiedStartTime);
-                        }
+                        onMouseOver(dayOfWeek, hourOfDay);
+                      }}
+                      onMouseUp={(e) => {
+                        e.preventDefault();
+                        onMouseUp(dayOfWeek, hourOfDay);
                       }}
                     ></td>
                   );
@@ -232,6 +316,18 @@ export function Calendar(props: {
           })}
         </tbody>
       </table>
+      {/* <div>{`Start DateTime: ${
+        selection.start
+          ? `Day: ${selection.start.day}, Time: ${selection.start.time}`
+          : "none"
+      }`}</div>
+      <div>{`End DateTime: ${
+        selection.end
+          ? `Day: ${selection.end.day}, Time: ${selection.end.time}`
+          : "none"
+      }`}</div>
+      <div>{`Valid Date/Times: ${JSON.stringify(validDates)}`}</div>
+      <div>{`Chosen Date/Times: ${JSON.stringify(chosenDaysAndTimes)}`}</div> */}
     </div>
   );
 }
