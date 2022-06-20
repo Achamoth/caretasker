@@ -3,7 +3,6 @@ import { ProviderPage } from "./Provider/ProviderPage";
 import styles from "./App.module.css";
 import { TopBar } from "./Bars/TopBar";
 import { NavBar } from "./Bars/NavBar";
-import { HomePage } from "./HomePage/HomePage";
 
 function App() {
   return (
@@ -18,7 +17,6 @@ function App() {
           </div>
           <div className={styles.content}>
             <Routes>
-              <Route path="/" element={<HomePage />} />
               <Route
                 path="providers/:providerName"
                 element={<ProviderPage />}

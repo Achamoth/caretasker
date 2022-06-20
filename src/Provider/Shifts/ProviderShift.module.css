@@ -1,7 +1,35 @@
 .container {
   background-color: rgb(227, 227, 227);
+  margin-bottom: 10px;
+  display: flex;
+  width: 420px;
+  max-height: 40px;
+}
+
+.image {
+  margin-top: 2px;
 }
 
 .container:hover {
   background-color: rgb(192, 190, 190);
+  cursor: pointer;
+}
+
+.content {
+  margin-left: 10px;
+  flex-grow: 3;
+}
+
+.date {
+  font-weight: 500;
+}
+
+.jobName {
+  font-style: italic;
+  text-align: end;
+}
+
+.location {
+  font-weight: 500;
+  text-align: end;
 }

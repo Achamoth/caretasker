@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Provider } from "../Contracts/Provider";
 import styles from "./ProviderQualifications.module.css";
 

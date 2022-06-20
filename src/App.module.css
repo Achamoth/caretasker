@@ -1,14 +1,15 @@
 .content {
-    padding-top: 30px;
-    background-color: #f5f5f5;
-    flex-grow: 1;
+  padding-top: 30px;
+  background-color: #f5f5f5;
+  flex-grow: 1;
+  min-height: 94vh;
 }
 
 .twoPanel {
-    display: flex;
+  display: flex;
 }
 
 .navBar {
-    border-right: 1px solid rgb(210, 210, 210);
-    background-color: #f5f5f5;
+  border-right: 1px solid rgb(210, 210, 210);
+  background-color: #f5f5f5;
 }

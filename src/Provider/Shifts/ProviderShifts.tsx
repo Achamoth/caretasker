@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { RecommendedShifts } from "./RecommendedShifts";
-import { UpcomingShifts } from "./UpcomingShifts";
+import { ShiftList } from "./ShiftList";
 import styles from "./ProviderShifts.module.css";
 import { Provider, Shift } from "../../Contracts/Provider";
 import {
@@ -29,10 +28,12 @@ export function ProviderShifts(props: {
   return (
     <div className={styles.container}>
       <div className={styles.recommendedShifts}>
-        <RecommendedShifts recommendedShifts={recommendedShifts} />
+        <h2>Recommended Shifts</h2>
+        <ShiftList shifts={recommendedShifts} />
       </div>
       <div className={styles.upcomingShifts}>
-        <UpcomingShifts assignedShifts={assignedShifts} />
+        <h2>Upcoming Shifts</h2>
+        <ShiftList shifts={assignedShifts} />
       </div>
     </div>
   );

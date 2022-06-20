@@ -32,6 +32,8 @@ export enum DayOfWeek {
   Sunday = "Sun",
 }
 
+type FacilityType = "House" | "Nursing" | "Hospital";
+
 export interface Shift {
   organisationName: string;
   location: string;
@@ -42,4 +44,5 @@ export interface Shift {
   endTime: Date;
   assignedTo?: string;
   jobId: string;
+  facilityType: FacilityType;
 }
