@@ -11,7 +11,7 @@ export function ProviderHeader(props: {
   return (
     <div className={styles.headerContainer}>
       <div className={styles.providerImage}>
-        <img src={image} alt="Profile photo" height={200} width={200} />
+        <img src={image} alt="" height={200} width={200} />
       </div>
       <div className={styles.summary}>
         <div className={styles.providerName}>

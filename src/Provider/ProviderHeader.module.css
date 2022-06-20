@@ -17,3 +17,7 @@
 .providerQualifications {
   grid-column: 2 / span 1;
 }
+
+.summary {
+  background-color: rgba(245, 245, 220, 0.279);
+}

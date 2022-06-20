@@ -8,14 +8,29 @@ export function ProviderQualifications(props: {
 }): React.ReactElement {
   return (
     <>
-      <div className={styles.qualificationHeader}>
-        <h1>Qualifications</h1>
-      </div>
       <div className={styles.summary}>{props.provider.summary}</div>
       <div className={styles.qualificationList}>
         <ul>
           {props.provider.qualifications.map((q) => {
-            return <li key={q.name}>{q.name}</li>;
+            return (
+              <li key={q.name}>
+                {q.name},{" "}
+                {`${q.dateAchieved.getMonth()}/${q.dateAchieved.getFullYear()}`}
+                {q.expiryDate && (
+                  <>
+                    {" "}
+                    -{" "}
+                    {`${q.expiryDate.getMonth()}/${q.expiryDate.getFullYear()}`}
+                  </>
+                )}
+                {q.institutionName && (
+                  <span className={styles.institutionName}>
+                    {" "}
+                    ({q.institutionName})
+                  </span>
+                )}
+              </li>
+            );
           })}
         </ul>
       </div>

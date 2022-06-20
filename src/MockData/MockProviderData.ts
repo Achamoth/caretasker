@@ -124,11 +124,20 @@ var Providers: Provider[] = [
     summary:
       "I am a professional nurse with over 6 years of experience in the aged care industry. I have a deep passion for providing the highest quality healthcare to our elderly population, and continually strive to better myself.",
     qualifications: [
-      { name: "Nursing degree", dateAchieved: new Date(2018, 11) },
       {
-        name: "WWVP",
-        dateAchieved: new Date(2022, 1, 1),
-        expiryDate: new Date(2023, 1, 1),
+        name: "Bachelor of Nursing",
+        institutionName: "Murdoch University",
+        dateAchieved: new Date(2018, 11),
+      },
+      {
+        name: "Master of Nursing",
+        institutionName: "The University of Notre Dame Australia",
+        dateAchieved: new Date(2019, 11),
+      },
+      {
+        name: "Working With Vulnerable People",
+        dateAchieved: new Date(2022, 4, 7),
+        expiryDate: new Date(2023, 4, 8),
       },
     ],
     availabilities: [

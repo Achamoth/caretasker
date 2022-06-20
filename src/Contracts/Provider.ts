@@ -13,6 +13,7 @@ export interface Qualification {
   name: string;
   dateAchieved: Date;
   expiryDate?: Date;
+  institutionName?: string;
 }
 
 export interface Availability {
