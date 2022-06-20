@@ -129,6 +129,13 @@ var Providers: Provider[] = [
         expiryDate: new Date(2023, 1, 1),
       },
     ],
+    availabilities: [
+      {
+        dayOfWeek: DayOfWeek.Saturday,
+        startTime: new Date(0, 1, 1, 1),
+        endTime: new Date(0, 1, 1, 2),
+      },
+    ],
   },
 ];
 
