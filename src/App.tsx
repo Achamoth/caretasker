@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ProviderPage } from "./Provider/ProviderPage";
-import styles from "./App.module.css";
 import { TopBar } from "./Bars/TopBar";
 import { NavBar } from "./Bars/NavBar";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import styles from "./App.module.css";
 
 function App() {
   return (

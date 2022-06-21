@@ -5,3 +5,8 @@
   margin-left: 40px;
   width: fit-content;
 }
+
+.loading {
+  margin-left: auto;
+  margin-right: auto;
+}
