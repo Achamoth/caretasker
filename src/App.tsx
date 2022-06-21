@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { ProviderPage } from "./Provider/ProviderPage";
 import { TopBar } from "./Bars/TopBar";
 import { NavBar } from "./Bars/NavBar";
@@ -12,7 +12,7 @@ function App() {
         <TopBar />
       </div>
       <div className={styles.twoPanel}>
-        <Router>
+        <Router basename="/">
           <div className={styles.navBar}>
             <NavBar />
           </div>
