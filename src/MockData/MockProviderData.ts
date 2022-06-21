@@ -132,6 +132,11 @@ function collapseAvailabilities(
       };
     }
   }
+  if (currentAvailability.endTime.getHours() === 0) {
+    currentAvailability.endDayOfWeek = dayAfter(
+      currentAvailability.startDayOfWeek
+    );
+  }
   result.push(currentAvailability);
   return result;
 }
