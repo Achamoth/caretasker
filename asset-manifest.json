@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/caretasker/static/css/main.df395246.css",
+    "main.css": "/caretasker/static/css/main.cf90132f.css",
     "main.js": "/caretasker/static/js/main.86cb086f.js",
     "static/media/Logo.png": "/caretasker/static/media/Logo.b284f4ce82ab7f77f27f.png",
     "static/media/Nursing.svg": "/caretasker/static/media/Nursing.89a84687adc208a3d87f10c24870584f.svg",
@@ -9,11 +9,11 @@
     "static/media/Hospital.svg": "/caretasker/static/media/Hospital.bd80c9f3026eec97cbe0b319f313a8b9.svg",
     "index.html": "/caretasker/index.html",
     "static/media/House.svg": "/caretasker/static/media/House.9d2cf0db1e05d14948ef3b5e22b13b34.svg",
-    "main.df395246.css.map": "/caretasker/static/css/main.df395246.css.map",
+    "main.cf90132f.css.map": "/caretasker/static/css/main.cf90132f.css.map",
     "main.86cb086f.js.map": "/caretasker/static/js/main.86cb086f.js.map"
   },
   "entrypoints": [
-    "static/css/main.df395246.css",
+    "static/css/main.cf90132f.css",
     "static/js/main.86cb086f.js"
   ]
 }
