@@ -26,7 +26,7 @@ export async function updateOrAddProvider(provider: Provider) {
 export async function getRecommendedShifts(
   providerName: string
 ): Promise<Shift[]> {
-  await wait(10);
+  await wait(1000);
   let provider = Providers.find(
     (p) => p.name.toLowerCase() === providerName.toLowerCase()
   );
