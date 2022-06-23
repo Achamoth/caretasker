@@ -1,9 +1,12 @@
 .container {
-  background-color: rgb(227, 227, 227);
-  margin-bottom: 10px;
+  background-color: white;
   display: flex;
-  width: 420px;
+  margin-bottom: 10px;
   max-height: 40px;
+  width: 420px;
+  padding: 6px;
+  border-radius: 5px;
+  border: 1px solid #bfc5bf;
 }
 
 .image {
